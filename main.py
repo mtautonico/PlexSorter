@@ -43,18 +43,28 @@ while True:
     if main_menu_selection == 1:
         output_file = MKVFile()
         inputFolderContents = os.listdir(os.getcwd() + "\input")
+        input_name = ""
         for i in range(len(inputFolderContents)):
+            # Finds the Video file in the input folder
             if inputFolderContents[i].endswith(".mp4"):
+                output_file = MKVFile()
+                # The fact that I have to do this is fucking stupid.
+                video = MKVTrack(f'input/{inputFolderContents[i]}')
+                output_file.add_track(video)
                 audio = MKVTrack(f'input/{inputFolderContents[i]}', 1, language="jpn", default_track=True)
                 output_file.add_track(audio)
+                # Name of the video file
+                input_name = inputFolderContents[i][:-4]
+                # Prints to console if the video was added if debug mode is on.
                 if settings['debug_mode']:
                     print(f"Added {inputFolderContents[i]} to MKV")
-        for i in range(len(inputFolderContents)):
-            if inputFolderContents[i].endswith(".ass"):
-                output_file.add_track(
-                    MKVTrack(f'input/{inputFolderContents[i]}', 2, language="jpn", default_track=True))
+                # Adds subtitle file to output file
+                output_file.add_track(MKVTrack(f'input/{input_name}.ass', language="jpn", default_track=True))
+                # Prints to console if the subtitle was added if debug mode is on.
                 if settings['debug_mode']:
-                    print(f"Added {inputFolderContents[i]} (Subtitle) to MKV")
+                    print(f"Added {input_name} (Subtitles) to MKV")
+        output_file.mux(f'output/{input_name}.mkv')
+        print("")
     # Entire Directory
     elif main_menu_selection == 2:
         pass
