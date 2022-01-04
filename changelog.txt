@@ -1,2 +1,2 @@
--PlexSorter now uses "wxpython" library for file picker dialogs
--Single file Selection now uses a file picker dialog for the video file, the subtitle file, and the output directory.
+-No longer requires settings.json, finalized entire directory option.
+-Completed readme.md
